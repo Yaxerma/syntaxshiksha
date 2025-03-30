@@ -1,0 +1,28 @@
+#C++ Setup - Bro Style! 🔥
+
+Bhai, C++ coding karne ke liye pehle setup toh karna padega! Ye le tools jo chahiye:
+
+- Visual Studio Code - Ye toh basic hai bhai, isme C++ extension daalna mat bhoolna
+- g++ compiler - Ye woh cheez hai jo tera code run karegi
+
+Setup ho gaya? Chalo, ab tu apna pehla C++ program likh:
+
+```
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+```
+
+Ye program console pe "Hello, World!" print karega. Samajh gaya? `#include` woh line hai jo input-output library ko import karti hai, aur `cout` se tu apna output print kar sakta hai.
+
+Important cheezein yaad rakhiyo:
+- Header files include karna mat bhoolna
+- main() function program ka entry point hai
+- Output ke liye cout, input ke liye cin use karna
+- Har line ke end mein semicolon (;) daalna zaroori hai, warna error aayega
+
+Ab tu ready hai C++ coding karne ke liye! Let's go! 🚀 

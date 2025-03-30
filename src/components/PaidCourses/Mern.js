@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Mern = () => {
     const [isSyllabusOpen, setIsSyllabusOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleSyllabus = () => {
         setIsSyllabusOpen(!isSyllabusOpen);
+    };
+
+    const handleBuyNow = () => {
+        const courseData = {
+            id: 'mern-course',
+            title: 'MERN Stack Course',
+            description: 'Complete MERN Stack Development Course covering MongoDB, Express.js, React, and Node.js',
+            price: 599
+        };
+        navigate('/cart', { state: { course: courseData } });
     };
 
     return (
@@ -100,6 +112,7 @@ const Mern = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     style={buttonStyle}
+                    onClick={handleBuyNow}
                 >
                     Buy Now
                 </motion.button>

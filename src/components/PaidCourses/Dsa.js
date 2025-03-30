@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Dsa = () => {
     const [isSyllabusOpen, setIsSyllabusOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleSyllabus = () => {
         setIsSyllabusOpen(!isSyllabusOpen);
+    };
+
+    const handleBuyNow = () => {
+        const courseData = {
+            id: 'dsa-course',
+            title: 'Data Structures and Algorithms Course',
+            description: 'Comprehensive DSA course covering arrays, linked lists, trees, graphs, and various algorithms',
+            price: 499
+        };
+        navigate('/cart', { state: { course: courseData } });
     };
 
     return (
@@ -100,6 +112,7 @@ const Dsa = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     style={buttonStyle}
+                    onClick={handleBuyNow}
                 >
                     Buy Now
                 </motion.button>

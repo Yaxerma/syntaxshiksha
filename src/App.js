@@ -12,7 +12,10 @@ import Dsa from "./components/PaidCourses/Dsa";
 import MiddleSection from "./components/MiddleSection";
 import Notes from "./components/PaidCourses/Notes/NotesSection";
 import Login from "./components/LoginPage/Login";
+import Cart from "./pages/Cart";
 import chillGuyImage from './chillguy.jpg'
+import Blogs from './pages/Blogs';
+import Contact from './pages/Contact';
 
 
 
@@ -249,6 +252,9 @@ const App = () => {
         <Route path="/learn-dsa" element={<Dsa />} />
         <Route path="/notes" element={<Notes />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );

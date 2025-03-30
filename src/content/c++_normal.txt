@@ -1,0 +1,25 @@
+#Setting Up Your Environment
+
+To start writing C++ code, you need to set up your development environment. Here are the tools you need:
+
+- Visual Studio Code with the C++ extension
+- g++ compiler for compiling C++ code
+
+Once your environment is set up, you can write your first C++ program:
+
+```
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+
+This program outputs "Hello, World!" to the console. The `#include` directive includes the Input-Output stream library, and `cout` is used to display the output.
+
+Key points to remember:
+- Always include necessary header files
+- The main() function is the entry point of your program
+- Use cout for output and cin for input
+- End each statement with a semicolon 

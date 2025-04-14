@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Link, Navigate, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import LearnCpp from "./pages/LearnCpp";
 import LearnJava from "./pages/LearnJava";
@@ -12,14 +12,30 @@ import Dsa from "./components/PaidCourses/Dsa";
 import MiddleSection from "./components/MiddleSection";
 import Notes from "./components/PaidCourses/Notes/NotesSection";
 import Login from "./components/LoginPage/Login";
+import Signup from "./components/LoginPage/Signup";
 import Cart from "./pages/Cart";
-import chillGuyImage from './chillguy.jpg'
+import chillGuyImage from './chillguy.jpg';
 import Blogs from './pages/Blogs';
 import Contact from './pages/Contact';
+import AdminDashboard from './components/Admin/Dashboard';
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import AdminLogin from "./components/LoginPage/AdminLogin";
+import Testimonials from './components/Testimonials';
+import Footer from './components/Footer';
+import DSASheets from './pages/DSASheets';
+import AboutUs from './pages/AboutUs';
 
 
 
 const TopBar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", backgroundColor: "white", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
       {/* Logo */}
@@ -30,32 +46,51 @@ const TopBar = () => {
       {/* Navigation Links */}
       <div>
         <Link to="/" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Home</Link>
-        <Link to="/learn-" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Paid Courses</Link>
         <Link to="/notes" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Notes</Link>
+        <Link to="/dsa-sheets" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>DSA Sheets</Link>
         <Link to="/blogs" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Blogs</Link>
+        <Link to="/about" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>About Us</Link>
         <Link to="/contact" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Contact us</Link>
       </div>
 
-      {/* Buttons */}
-      <div>
-        <Link to="/login">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            style={{ backgroundColor: "orange", color: "white", padding: "10px 20px", border: "none", borderRadius: "5px", marginRight: "10px", fontSize: "18px" }}
-          >
-            Login
-          </motion.button>
-        </Link>
-        <Link to="/signup">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            style={{ backgroundColor: "orange", color: "white", padding: "10px 20px", border: "none", borderRadius: "5px", fontSize: "18px" }}
-          >
-            Signup
-          </motion.button>
-        </Link>
+      {/* User Info/Buttons */}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {user && user.username ? (
+          <>
+            <span style={{ marginRight: '20px', color: 'orange', fontWeight: 'bold' }}>
+              Welcome, {user.username}
+            </span>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleLogout}
+              style={{ backgroundColor: "orange", color: "white", padding: "10px 20px", border: "none", borderRadius: "5px", fontSize: "16px" }}
+            >
+              Logout
+            </motion.button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ backgroundColor: "orange", color: "white", padding: "10px 20px", border: "none", borderRadius: "5px", marginRight: "10px", fontSize: "16px" }}
+              >
+                Login
+              </motion.button>
+            </Link>
+            <Link to="/signup">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ backgroundColor: "white", color: "orange", padding: "10px 20px", border: "2px solid orange", borderRadius: "5px", fontSize: "16px" }}
+              >
+                Sign Up
+              </motion.button>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
@@ -101,7 +136,7 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            Welcome to SyntaxShiksha
+            Welcome to Syntaxशिक्षा
           </motion.h1>
           <motion.p
             style={{ fontSize: "1.2rem", marginTop: "20px", margin: "20px 0" }} // Changed margin to push left
@@ -109,10 +144,10 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1 }}
           >
-            Welcome to SyntaxShiksha, where learning to code is as chill as the chill guy himself.
-            No more sweating over confusing syntax—here, we break it down so smoothly that even your lazy side would approve.
-            Whether you're just starting out or leveling up, our bite-sized lessons, real-world projects, and meme-infused explanations will keep you hooked. So grab a cup of coffee, relax, and let's turn those error messages into high-fives.
-            <h3> Code. Compile. Chill.</h3>
+            Welcome to SyntaxShiksha, where learning to code is as chill as the chill guy himself.<br></br>
+            Learn programming the easy and fun way, with explanations in both English and Hinglish!
+
+            <h3> Code Kar . Compile Kar. Chill Kar.</h3>
           </motion.p>
         </div>
       </motion.div>
@@ -121,142 +156,425 @@ const Home = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 2, delay: 0.5 }}
-        style={{ marginTop: "30px" }}
+        style={{ marginTop: "30px", padding: "0 40px" }}
       >
         <motion.h1
-          style={{ fontSize: "2.5rem", fontWeight: "bold" }}
+          style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "40px" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
         >
           Learn to Code
         </motion.h1>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "30px", marginTop: "30px" }}>
-          <Link to="/learn-cpp">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              style={{ backgroundColor: "orange", color: "white", padding: "20px", border: "none", borderRadius: "5px", fontSize: "1rem", height: "100px", width: "100%" }}
-            >
-              Learn C++
-            </motion.button>
-          </Link>
-          <Link to="/learn-java">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              style={{ backgroundColor: "orange", color: "white", padding: "20px", border: "none", borderRadius: "5px", fontSize: "1rem", height: "100px", width: "100%" }}
-            >
-              Learn Java
-            </motion.button>
-          </Link>
-          <Link to="/learn-js">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              style={{ backgroundColor: "orange", color: "white", padding: "20px", border: "none", borderRadius: "5px", fontSize: "1rem", height: "100px", width: "100%" }}
-            >
-              Learn JavaScript
-            </motion.button>
-          </Link>
-          <Link to="/learn-python">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              style={{ backgroundColor: "orange", color: "white", padding: "20px", border: "none", borderRadius: "5px", fontSize: "1rem", height: "100px", width: "100%" }}
-            >
-              Learn Python
-            </motion.button>
-          </Link>
-          <Link to="/learn-php">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              style={{ backgroundColor: "orange", color: "white", padding: "20px", border: "none", borderRadius: "5px", fontSize: "1rem", height: "100px", width: "100%" }}
-            >
-              Learn PHP
-            </motion.button>
-          </Link>
-          <Link to="/learn-sql">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              style={{ backgroundColor: "orange", color: "white", padding: "20px", border: "none", borderRadius: "5px", fontSize: "1rem", height: "100px", width: "100%" }}
-            >
-              Learn SQL
-            </motion.button>
-          </Link>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "40px",
+          marginTop: "30px"
+        }}>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "30px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              display: "flex",
+              flexDirection: "column",
+              height: "450px",
+              position: "relative"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "2.5rem", color: "#333" }}>C++</h2>
+              <span style={{ fontSize: "2.5rem" }}>🔵</span>
+            </div>
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              height: "200px",
+              overflow: "auto"
+            }}>
+              <pre style={{ margin: 0 }}>
+                {`#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!";
+    return 0;
+}`}
+              </pre>
+            </div>
+            <div style={{
+              position: "absolute",
+              bottom: "30px",
+              left: "30px",
+              right: "30px"
+            }}>
+              <Link to="/learn-cpp" style={{ width: "100%" }}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: "100%",
+                    padding: "15px",
+                    backgroundColor: "#0066cc",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "1.1rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Learn C++
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "30px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              display: "flex",
+              flexDirection: "column",
+              height: "450px",
+              position: "relative"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "2.5rem", color: "#333" }}>Java</h2>
+              <span style={{ fontSize: "2.5rem" }}>☕</span>
+            </div>
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              height: "200px",
+              overflow: "auto"
+            }}>
+              <pre style={{ margin: 0 }}>
+                {`public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}`}
+              </pre>
+            </div>
+            <div style={{
+              position: "absolute",
+              bottom: "30px",
+              left: "30px",
+              right: "30px"
+            }}>
+              <Link to="/learn-java" style={{ width: "100%" }}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: "100%",
+                    padding: "15px",
+                    backgroundColor: "#f89820",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "1.1rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Learn Java
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "30px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              display: "flex",
+              flexDirection: "column",
+              height: "450px",
+              position: "relative"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "2.5rem", color: "#333" }}>JavaScript</h2>
+              <span style={{ fontSize: "2.5rem" }}>💛</span>
+            </div>
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              height: "200px",
+              overflow: "auto"
+            }}>
+              <pre style={{ margin: 0 }}>
+                {`function greet() {
+    console.log("Hello World!");
+}
+
+greet();`}
+              </pre>
+            </div>
+            <div style={{
+              position: "absolute",
+              bottom: "30px",
+              left: "30px",
+              right: "30px"
+            }}>
+              <Link to="/learn-js" style={{ width: "100%" }}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: "100%",
+                    padding: "15px",
+                    backgroundColor: "#f7df1e",
+                    color: "black",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "1.1rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Learn JavaScript
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "30px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              display: "flex",
+              flexDirection: "column",
+              height: "450px",
+              position: "relative"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "2.5rem", color: "#333" }}>Python</h2>
+              <span style={{ fontSize: "2.5rem" }}>🐍</span>
+            </div>
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              height: "200px",
+              overflow: "auto"
+            }}>
+              <pre style={{ margin: 0 }}>
+                {`def greet():
+    print("Hello World!")
+
+greet()`}
+              </pre>
+            </div>
+            <div style={{
+              position: "absolute",
+              bottom: "30px",
+              left: "30px",
+              right: "30px"
+            }}>
+              <Link to="/learn-python" style={{ width: "100%" }}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: "100%",
+                    padding: "15px",
+                    backgroundColor: "#306998",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "1.1rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Learn Python
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "30px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              display: "flex",
+              flexDirection: "column",
+              height: "450px",
+              position: "relative"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "2.5rem", color: "#333" }}>PHP</h2>
+              <span style={{ fontSize: "2.5rem" }}>🐘</span>
+            </div>
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              height: "200px",
+              overflow: "auto"
+            }}>
+              <pre style={{ margin: 0 }}>
+                {`<?php
+function greet() {
+    echo "Hello World!";
+}
+greet();
+?>`}
+              </pre>
+            </div>
+            <div style={{
+              position: "absolute",
+              bottom: "30px",
+              left: "30px",
+              right: "30px"
+            }}>
+              <Link to="/learn-php" style={{ width: "100%" }}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: "100%",
+                    padding: "15px",
+                    backgroundColor: "#777bb3",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "1.1rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Learn PHP
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "30px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              display: "flex",
+              flexDirection: "column",
+              height: "450px",
+              position: "relative"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "2.5rem", color: "#333" }}>SQL</h2>
+              <span style={{ fontSize: "2.5rem" }}>🗄️</span>
+            </div>
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              height: "200px",
+              overflow: "auto"
+            }}>
+              <pre style={{ margin: 0 }}>
+                {`SELECT * FROM users
+WHERE name = 'John'
+ORDER BY id DESC;`}
+              </pre>
+            </div>
+            <div style={{
+              position: "absolute",
+              bottom: "30px",
+              left: "30px",
+              right: "30px"
+            }}>
+              <Link to="/learn-sql" style={{ width: "100%" }}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: "100%",
+                    padding: "15px",
+                    backgroundColor: "#e48e00",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "1.1rem",
+                    cursor: "pointer"
+                  }}
+                >
+                  Learn SQL
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
       <MiddleSection />
 
-      <motion.div
-        className="testimonials-section"
-        initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.5 }}
-        style={{ marginTop: "30px", backgroundColor: "#f9f9f9", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-      >
-        <motion.h1
-          style={{ fontSize: "2.5rem", fontWeight: "bold" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-        >
-          Testimonials
-        </motion.h1>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(1, 1fr)", gap: "20px", marginTop: "20px" }}>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-          >
-            <p>"ma</p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-          >
-            <p>"The courses are well-structured and easy to follow." - Jane Smith</p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-          >
-            <p>"I love the interactive exercises and projects." - Alice Johnson</p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-          >
-            <p>"Great platform for both beginners and advanced learners." - Bob Brown</p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-          >
-            <p>"The support from the community is amazing." - Charlie Davis</p>
-          </motion.div>
-        </div>
-      </motion.div>
+      <Testimonials />
+      <Footer />
     </motion.div>
   );
 };
 
 const App = () => {
   return (
-    <Router>
-      <TopBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/learn-cpp" element={<LearnCpp />} />
-        <Route path="/learn-java" element={<LearnJava />} />
-        <Route path="/learn-js" element={<LearnJs />} />
-        <Route path="/learn-python" element={<LearnPython />} />
-        <Route path="/learn-php" element={<LearnPhp />} />
-        <Route path="/learn-sql" element={<LearnSql />} />
-        <Route path="/learn-mern" element={<Mern />} />
-        <Route path="/learn-dsa" element={<Dsa />} />
-        <Route path="/notes" element={<Notes />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <TopBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/learn-cpp" element={<LearnCpp />} />
+          <Route path="/learn-java" element={<LearnJava />} />
+          <Route path="/learn-js" element={<LearnJs />} />
+          <Route path="/learn-python" element={<LearnPython />} />
+          <Route path="/learn-php" element={<LearnPhp />} />
+          <Route path="/learn-sql" element={<LearnSql />} />
+          <Route path="/learn-mern" element={<Mern />} />
+          <Route path="/learn-dsa" element={<Dsa />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin/dashboard/*" element={<AdminDashboard />} />
+          <Route path="/dsa-sheets" element={<DSASheets />} />
+          <Route path="/about" element={<AboutUs />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

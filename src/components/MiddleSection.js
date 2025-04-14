@@ -4,77 +4,174 @@ import { Link } from "react-router-dom";
 
 const MiddleSection = () => {
     return (
-        <div style={{ textAlign: "center", padding: "20px 20px" }}>
+        <div style={{ padding: "20px 40px" }}>
             <motion.div
                 className="paid-courses-section"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
-                style={{ marginTop: "30px" }}
+                style={{ marginTop: "50px" }}
             >
                 <motion.h1
-                    style={{ fontSize: "2.5rem", fontWeight: "bold" }}
+                    style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "40px", textAlign: "center" }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1, delay: 1.5 }}
                 >
-                    Paid Courses
+                    Premium Courses
                 </motion.h1>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginTop: "30px" }}>
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        style={{ backgroundColor: "orange", padding: "10px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", display: "flex", alignItems: "center" }}
-                    >
-                        <img src="https://www.bsitsoftware.com/images/mern/mongodb-BSIT-Software-Services-Web-And-App-Development-Company-In-India.jpg" alt="MEAN Stack" style={{ width: "100px", height: "80px", borderRadius: "10px", marginRight: "20px" }} />
-                        <div>
-                            <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>MERN Stack</h2>
-                            <p style={{ fontSize: "1rem", marginTop: "10px" }}>Learn the MERN stack (MongoDB, Express.js, React, Node.js) to build full-stack web applications.</p>
-                            <Link to="/learn-mern">
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    style={{ backgroundColor: "black", color: "white", padding: "10px 20px", border: "2px solid orange", borderRadius: "5px", marginTop: "10px" }}
-                                >
-                                    Learn MERN
-                                </motion.button>
-                            </Link>
-                        </div>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        style={{ backgroundColor: "orange", padding: "10px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", display: "flex", alignItems: "center" }}
-                    >
-                        <img src="https://img.freepik.com/free-vector/tiny-scientists-developing-ai-using-machine-learning-brain-computing-data-flat-vector-illustration-artificial-intelligence-technology-science-concept-banner-website-design-landing-web-page_74855-22578.jpg" alt="Data Science" style={{ width: "100px", height: "80px", borderRadius: "10px", marginRight: "20px" }} />
-                        <div>
-                            <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Data Science</h2>
-                            <p style={{ fontSize: "1rem", marginTop: "10px" }}>Master data science concepts and tools, including Python, R, and machine learning algorithms.</p>
-                            <Link to="/learn-data-science">
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    style={{ backgroundColor: "black", color: "white", padding: "10px 20px", border: "2px solid orange", borderRadius: "5px", marginTop: "10px" }}
-                                >
-                                    Learn Data Science
-                                </motion.button>
-                            </Link>
-                        </div>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        style={{ backgroundColor: "orange", padding: "10px", borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", display: "flex", alignItems: "center" }}
-                    >
-                        <img src="https://img.freepik.com/free-vector/programming-concept-illustration_114360-1351.jpg" alt="DSA" style={{ width: "100px", height: "80px", borderRadius: "10px", marginRight: "20px" }} />
-                        <div>
-                            <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Data Structures and Algorithms</h2>
-                            <p style={{ fontSize: "1rem", marginTop: "10px" }}>Learn the fundamentals of data structures and algorithms to improve your coding skills.</p>
-                            <Link to="/learn-dsa">
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    style={{ backgroundColor: "black", color: "white", padding: "10px 20px", border: "2px solid orange", borderRadius: "5px", marginTop: "10px" }}
-                                >
-                                    Learn DSA
-                                </motion.button>
-                            </Link>
-                        </div>
-                    </motion.div>
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "40px",
+                    marginTop: "30px"
+                }}>
+                    <Link to="/learn-mern" style={{ textDecoration: "none" }}>
+                        <motion.div
+                            whileHover={{ scale: 1.03 }}
+                            style={{
+                                backgroundColor: "white",
+                                borderRadius: "10px",
+                                padding: "30px",
+                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                                display: "flex",
+                                flexDirection: "column",
+                                height: "600px",
+                                position: "relative",
+                                overflow: "hidden",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                                <h2 style={{ fontSize: "2.5rem", color: "#333" }}>MERN</h2>
+                                <span style={{ fontSize: "2.5rem" }}>⚛️</span>
+                            </div>
+                            <img
+                                src="https://www.bsitsoftware.com/images/mern/mongodb-BSIT-Software-Services-Web-And-App-Development-Company-In-India.jpg"
+                                alt="MERN Stack"
+                                style={{
+                                    width: "100%",
+                                    height: "200px",
+                                    objectFit: "cover",
+                                    borderRadius: "8px",
+                                    marginBottom: "30px"
+                                }}
+                            />
+                            <div style={{
+                                backgroundColor: "#f8f9fa",
+                                padding: "20px",
+                                borderRadius: "8px",
+                                marginBottom: "30px",
+                                flex: "1"
+                            }}>
+                                <h3 style={{ fontSize: "1.2rem", marginBottom: "15px", color: "#333" }}>What you'll learn:</h3>
+                                <ul style={{ paddingLeft: "20px", color: "#666" }}>
+                                    <li>MongoDB for Database</li>
+                                    <li>Express.js Backend</li>
+                                    <li>React Frontend</li>
+                                    <li>Node.js Server</li>
+                                </ul>
+                            </div>
+                        </motion.div>
+                    </Link>
+
+                    <Link to="/learn-dsa" style={{ textDecoration: "none" }}>
+                        <motion.div
+                            whileHover={{ scale: 1.03 }}
+                            style={{
+                                backgroundColor: "white",
+                                borderRadius: "10px",
+                                padding: "30px",
+                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                                display: "flex",
+                                flexDirection: "column",
+                                height: "600px",
+                                position: "relative",
+                                overflow: "hidden",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                                <h2 style={{ fontSize: "2.5rem", color: "#333" }}>DSA</h2>
+                                <span style={{ fontSize: "2.5rem" }}>🔍</span>
+                            </div>
+                            <img
+                                src="https://img.freepik.com/free-vector/programming-concept-illustration_114360-1351.jpg"
+                                alt="DSA"
+                                style={{
+                                    width: "100%",
+                                    height: "200px",
+                                    objectFit: "cover",
+                                    borderRadius: "8px",
+                                    marginBottom: "30px"
+                                }}
+                            />
+                            <div style={{
+                                backgroundColor: "#f8f9fa",
+                                padding: "20px",
+                                borderRadius: "8px",
+                                marginBottom: "30px",
+                                flex: "1"
+                            }}>
+                                <h3 style={{ fontSize: "1.2rem", marginBottom: "15px", color: "#333" }}>What you'll learn:</h3>
+                                <ul style={{ paddingLeft: "20px", color: "#666" }}>
+                                    <li>Data Structures</li>
+                                    <li>Algorithms & Analysis</li>
+                                    <li>Problem Solving</li>
+                                    <li>Interview Preparation</li>
+                                </ul>
+                            </div>
+                        </motion.div>
+                    </Link>
+
+                    <Link to="/learn-data-science" style={{ textDecoration: "none" }}>
+                        <motion.div
+                            whileHover={{ scale: 1.03 }}
+                            style={{
+                                backgroundColor: "white",
+                                borderRadius: "10px",
+                                padding: "30px",
+                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                                display: "flex",
+                                flexDirection: "column",
+                                height: "600px",
+                                position: "relative",
+                                overflow: "hidden",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                                <h2 style={{ fontSize: "2.5rem", color: "#333" }}>Data Science</h2>
+                                <span style={{ fontSize: "2.5rem" }}>📊</span>
+                            </div>
+                            <img
+                                src="https://img.freepik.com/free-vector/tiny-scientists-developing-ai-using-machine-learning-brain-computing-data-flat-vector-illustration-artificial-intelligence-technology-science-concept-banner-website-design-landing-web-page_74855-22578.jpg"
+                                alt="Data Science"
+                                style={{
+                                    width: "100%",
+                                    height: "200px",
+                                    objectFit: "cover",
+                                    borderRadius: "8px",
+                                    marginBottom: "30px"
+                                }}
+                            />
+                            <div style={{
+                                backgroundColor: "#f8f9fa",
+                                padding: "20px",
+                                borderRadius: "8px",
+                                marginBottom: "30px",
+                                flex: "1"
+                            }}>
+                                <h3 style={{ fontSize: "1.2rem", marginBottom: "15px", color: "#333" }}>What you'll learn:</h3>
+                                <ul style={{ paddingLeft: "20px", color: "#666" }}>
+                                    <li>Machine Learning</li>
+                                    <li>Data Analysis</li>
+                                    <li>Python & Libraries</li>
+                                    <li>Statistical Methods</li>
+                                </ul>
+                            </div>
+                        </motion.div>
+                    </Link>
                 </div>
             </motion.div>
         </div>

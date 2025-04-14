@@ -1,5 +1,91 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+// TopBar component from App.js
+const TopBar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  return (
+    <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", backgroundColor: "white", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+      {/* Logo */}
+      <div style={{ display: "flex", alignItems: "center", color: "orange", fontWeight: "bold", fontSize: "30px" }}>
+        &lt;/&gt; SyntaxShiksha.in
+      </div>
+
+      {/* Navigation Links */}
+      <div>
+        <Link to="/" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Home</Link>
+        <Link to="/notes" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Notes</Link>
+        <Link to="/dsa-sheets" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>DSA Sheets</Link>
+        <Link to="/blogs" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Blogs</Link>
+        <Link to="/contact" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>Contact</Link>
+        <Link to="/about" style={{ margin: "0 20px", color: "black", textDecoration: "none", fontSize: "18px" }}>About</Link>
+      </div>
+
+      {/* User Authentication */}
+      <div>
+        {user ? (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <span style={{ marginRight: "20px", color: "black" }}>Welcome, {user.username}</span>
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: "orange",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontSize: "16px"
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div>
+            <Link
+              to="/login"
+              style={{
+                backgroundColor: "orange",
+                color: "white",
+                textDecoration: "none",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                marginRight: "10px",
+                fontSize: "16px"
+              }}
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              style={{
+                backgroundColor: "white",
+                color: "orange",
+                textDecoration: "none",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                border: "1px solid orange",
+                fontSize: "16px"
+              }}
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 const LearnCpp = () => {
   const [selectedTopic, setSelectedTopic] = useState("setup");
@@ -73,12 +159,13 @@ const LearnCpp = () => {
         }}
       >
         {/* Top Navbar */}
+        <TopBar />
         <div style={{
           width: "100%",
           backgroundColor: "#FF8C00",
           padding: "15px 40px 15px 30px",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           boxSizing: "border-box"
@@ -89,23 +176,6 @@ const LearnCpp = () => {
             fontSize: "24px",
             fontWeight: "600"
           }}>Learn C++</h2>
-          <a
-            href="/"
-            style={{
-              textDecoration: "none",
-              backgroundColor: "#ffffff",
-              color: "#FF8C00",
-              padding: "8px 20px",
-              borderRadius: "6px",
-              fontSize: "16px",
-              fontWeight: "500",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              transition: "all 0.2s ease",
-              marginRight: "20px"
-            }}
-          >
-            Home
-          </a>
         </div>
 
         {/* Main Content Container */}

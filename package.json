@@ -1,4 +1,37 @@
 {
+<<<<<<< HEAD
+  "dependencies": {
+    "@stripe/react-stripe-js": "^3.5.1",
+    "@stripe/stripe-js": "^6.1.0",
+    "axios": "^1.8.4",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "expres": "^0.0.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2",
+    "react-scroll": "^1.9.0"
+  },
+  "homepage": "https://Yaxerma.github.io/syntaxshiksha",
+  "name": "codedev-1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
+=======
   "name": "codedev-1",
   "version": "0.1.0",
   "private": true,
@@ -46,3 +79,4 @@
     "gh-pages": "^6.3.0"
   }
 }
+>>>>>>> 227e8e291dccfd1f38f7f6453ad92ee1a32509c4
